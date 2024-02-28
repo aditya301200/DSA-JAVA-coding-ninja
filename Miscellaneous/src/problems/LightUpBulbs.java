@@ -54,7 +54,8 @@ public class LightUpBulbs {
         int y = sc.nextInt();
         String str = sc.next();
         sc.close();
-        int num = 0; //num = no. of reverse operations required   to put all the zeros together so that only one light up operation is required
+        int num = 0;
+        //num = no. of reverse operations required   to put all the zeros together so that only one light up operation is required
         str += '1';
         //no. of reverse operations required = no. of continuous segments of zeros - 1
         //that's why I added 1 at the end of string to count no. of changes from zero to one
