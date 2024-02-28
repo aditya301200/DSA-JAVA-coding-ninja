@@ -83,6 +83,22 @@ The total amount of coins needed is 2 + 2 + 2 = 6.
 
  */
 public class InterestingSequences {
+    private static int calCost(int[] arr, int n, int k, int l, int num){
+        int increment = 0;
+        int decrement = 0;
+        for(int i=0; i<n; i++){
+            if(arr[i] > num){
+                decrement += arr[i] - num;
+            } else if(arr[i] < num){
+                increment += num - arr[i];
+            }
+        }
+        if(increment < decrement){
+            return Integer.MAX_VALUE;
+        }
+
+        return (decrement*k)+((increment-decrement)*l);
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
@@ -92,5 +108,18 @@ public class InterestingSequences {
         for(int i=0; i<n; i++){
             arr[i] = sc.nextInt();
         }
+        // find min and max value in array
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for(int i=0; i<n; i++){
+            min = Math.min(min, arr[i]);
+            max = Math.max(max, arr[i]);
+        }
+        int cost = Integer.MAX_VALUE;
+        // calculate cost
+        for(int i=min; i<=max; i++){
+            cost = Math.min(cost, calCost(arr, n, k, l, i));
+        }
+        System.out.println(cost);
     }
 }
