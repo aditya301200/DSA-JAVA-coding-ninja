@@ -54,16 +54,40 @@ public class ReverseLL {
         }
     }
 
-    public static void reverse(Node head){ // iterative way
+    public static Node reverse(Node head, Node tail){ // iterative way
+        Node prev = null;
+        Node curr = tail = head;
+        Node next;
 
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+        return head;
     }
 
     public static void reverseRecursive(Node head){ // recursive way
         if(head == null){
             return;
         }
-        reverse(head.next);
+        reverseRecursive(head.next);
         System.out.print(head.data+" ");
+    }
+
+    public static void print(Node head){
+        if(head == null){
+            System.out.println("LL is empty");
+            return;
+        }
+        Node temp = head;
+        while(temp != null){
+            System.out.print(temp.data+"->");
+            temp = temp.next;
+        }
+        System.out.println("null");
     }
 
     public static void main(String[] args) {
@@ -80,7 +104,8 @@ public class ReverseLL {
                 tail = tail.next;
             }
             ReverseLL ll = new ReverseLL();
-            reverse(head);
+            head = reverse(head,tail);
+            print(head);
         }
     }
 }

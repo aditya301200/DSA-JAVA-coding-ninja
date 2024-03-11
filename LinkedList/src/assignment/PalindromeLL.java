@@ -29,12 +29,14 @@ Sample Output 1 :
 true
 Sample Input 2 :
 2
+1
 5
-0 2 3 2 5
+6
+0 2 3 2 5 6
 
 Sample Output 2 :
-false
 true
+false
 Explanation for the Sample Input 2 :
 For the first query, it is pretty intuitive that the     given list is not a palindrome, hence the output is 'false'.
 
@@ -49,28 +51,66 @@ public class PalindromeLL {
             next = null;
         }
     }
+    public static Node head;
+    public static Node tail;
 
-    /*public static boolean isPalindrome(Node head, int n){
-        if(n%2!=0){
-
+    public Node findMid(Node head){ // slow-fast approach
+        Node slow = head;
+        Node fast = head;
+        while(fast != null && fast.next!=null){
+            slow = slow.next; //+1
+            fast = fast.next.next; //+2
         }
-    }*/
+        return slow; // slow is my middle node
+    }
+    public boolean isPalindrome(){
+        if(head == null || head.next == null){
+            return true;
+        }
+        //step-1: find mid
+        Node midNode = findMid(head);
+
+        //step-2: reverse 2nd half
+        Node prev = null;
+        Node curr = midNode;
+        Node next;
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        Node right = prev; // right half head
+        Node left = head; // right half head
+
+        //step-3: check left and right half
+        while (right != null){
+            if(left.data != right.data){
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
+        PalindromeLL ll = new PalindromeLL();
         Scanner sc = new Scanner(System.in);
         int t = sc.nextInt();
         while(t-- > 0){
             int n = sc.nextInt();
             int a = sc.nextInt();
-            Node head = new Node(a);
-            Node tail = head;
+            head = new Node(a);
+            tail = head;
 
             for(int i=0; i<n-1; i++){
                 a = sc.nextInt();
                 tail.next = new Node(a);
                 tail = tail.next;
             }
-            PalindromeLL ll = new PalindromeLL();
+            System.out.println(ll.isPalindrome());
         }
+        sc.close();
     }
 }
